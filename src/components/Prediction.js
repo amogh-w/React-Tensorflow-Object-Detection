@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 
 const Prediction = ({ imageSrc, predictions }) => {
   const canvasRef = React.useRef(null);
