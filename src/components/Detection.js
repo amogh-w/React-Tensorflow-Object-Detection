@@ -51,9 +51,6 @@ const Detection = () => {
   return (
     <React.Fragment>
       <Typography>
-        Welcome to React.js with Tensorflow Object Detection
-      </Typography>
-      <Typography>
         {!isModelLoaded ? "Loading Model... ⌛" : "Model Loaded! ✅"}
       </Typography>
       <WebcamCapture />
