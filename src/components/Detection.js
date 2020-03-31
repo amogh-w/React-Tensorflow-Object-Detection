@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, TextField, Divider } from "@material-ui/core";
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
 import Prediction from "./Prediction";
@@ -9,13 +9,15 @@ const Detection = () => {
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [predictions, setPredictions] = useState(null);
+  const [specificClass, setSpecificClass] = useState("");
 
   useEffect(() => {
     const loadModel = async () => {
       const newModel = await cocoSsd.load({ base: "lite_mobilenet_v2" });
       setModel(newModel);
+      setIsModelLoaded(true);
     };
-    loadModel().then(setIsModelLoaded(true));
+    loadModel();
   }, []);
 
   const videoConstraints = {
@@ -54,12 +56,32 @@ const Detection = () => {
         {!isModelLoaded ? "Loading Model... ⌛" : "Model Loaded! ✅"}
       </Typography>
       <WebcamCapture />
+      <Divider style={{ margin: "20px" }} />
+      <br />
+      <TextField
+        label="Specific Class"
+        name="Specific Class"
+        value={specificClass}
+        onChange={e => setSpecificClass(e.target.value)}
+        variant="outlined"
+      />
       <Button
+        color="primary"
+        variant="contained"
+        style={{ height: "56px", marginLeft: "20px" }}
         onClick={() =>
           model
             .detect(document.getElementById("webcamFeed"))
             .then(predictions => {
-              setPredictions(predictions);
+              if (specificClass === "") {
+                setPredictions(predictions);
+              } else {
+                const specificDetections = predictions.filter(
+                  p => p.class === specificClass
+                );
+                console.log(specificDetections);
+                setPredictions(specificDetections);
+              }
             })
         }
       >
