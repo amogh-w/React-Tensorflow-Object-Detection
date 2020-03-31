@@ -22,6 +22,16 @@ model
   })
 ```
 
+## Live Demo - [Click Here](https://angry-tesla-845375.netlify.com/)
+
+1. Wait for the Model to load
+2. Allow access to the Webcam
+3. Click the 'Capture Photo' button to log a base64 string of the Webcam frame
+4. Click 'Predict' button to get a Predictions
+5. Type a Class Name to filter the Predictions for that specific Class
+
+Note: Please Click the canvas to load a Webcam frame onto the canvas. Sorry but I couldn't make the `useRef()` hook work correctly. I will fix this soon!
+
 ---
 
 # React.js and Tensorflow.js Object Detection
