@@ -1,3 +1,29 @@
+# caMicroscope GSoC 2020 Code Challenge:
+
+Using a machine learning toolkit of your choice, create a tool which identifies objects in the image, then returns positions in pixels corresponding to bounding boxes of a user-selected class of object in the image. For example, given an image with both cats and dogs, return bounding boxes for only cats.
+
+![working_gif](/Screenshots/1.gif)
+
+Added a Specific Class Input to enter one of the 90 classes in the COCO dataset. The predictions will be filtered and only that class will be shown.
+
+```
+model
+  .detect(document.getElementById("webcamFeed"))
+  .then(predictions => {
+    if (specificClass === "") {
+      setPredictions(predictions);
+    } else {
+      const specificDetections = predictions.filter(
+        p => p.class === specificClass
+        );
+      console.log(specificDetections);
+      setPredictions(specificDetections);
+    }
+  })
+```
+
+---
+
 # React.js and Tensorflow.js Object Detection
 
 A React Web Application to test the COCO SSD pre-trained model to detect objects through the User's Webcam or other video source. Uses Tensorflow.js to run the model directly in the browser.
