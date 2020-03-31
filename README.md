@@ -1,68 +1,77 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React.js and Tensorflow.js Object Detection
 
-## Available Scripts
+A React Web Application to test the COCO SSD pre-trained model to detect objects through the User's Webcam or other video source. Uses Tensorflow.js to run the model directly in the browser.
 
-In the project directory, you can run:
+![working](/Screenshots/0.png)
 
-### `yarn start`
+## [Object Detection (coco-ssd)](https://www.npmjs.com/package/@tensorflow-models/coco-ssd)
 
-Runs the app in the development mode.<br />
+Object detection model that aims to localize and identify multiple objects in a single image.
+
+This model is a TensorFlow.js port of the COCO-SSD model. For more information about Tensorflow object detection API, check out this readme in [tensorflow/object_detection](https://github.com/tensorflow/models/blob/master/research/object_detection/README.md).
+
+This model detects objects defined in the COCO dataset, which is a large-scale object detection, segmentation, and captioning dataset. You can find more information [here](http://cocodataset.org/#home). The model is capable of detecting [90 classes of objects](https://github.com/tensorflow/tfjs-models/blob/HEAD/src/classes.ts). (SSD stands for Single Shot MultiBox Detection).
+
+### Usage
+
+```
+const [model, setModel] = useState(null);
+const [predictions, setPredictions] = useState(null);
+
+useEffect(() => {
+    const loadModel = async () => {
+      const newModel = await cocoSsd.load({ base: "lite_mobilenet_v2" });
+      setModel(newModel);
+    };
+    loadModel().then(setIsModelLoaded(true));
+  }, []);
+
+model.detect(document.getElementById("webcamFeed"))
+    .then(predictions => {
+        setPredictions(predictions);
+    })
+```
+
+Sample Output of the `model.detect()` method
+
+```
+[{
+  bbox: [x, y, width, height],
+  class: "person",
+  score: 0.8380282521247864
+}, {
+  bbox: [x, y, width, height],
+  class: "kite",
+  score: 0.74644153267145157
+}]
+```
+
+## Future Improvements:
+
+1. Because of Tensorflow.js we can offer a option to the user to dynamically change the model which is being used for Object Detection.
+2. The user can save the image with detections with a Right Click > Save Image As. Adding a dedicated Download button will simplify this process.
+3. As we have the box co-ordinates of the detected object which we use to paint in the canvas, we should be able to cut out the portion of the image and offer cropped views of the image for the user.
+
+## Resources:
+
+- [Create a New React App](https://reactjs.org/docs/create-a-new-react-app.html) - Get started with React here
+- [Material-UI](https://material-ui.com/) - React components for faster and easier web development
+- [TensorFlow.js](https://www.tensorflow.org/js) - A library for machine learning in Javascript
+- [React Webcam](https://www.npmjs.com/package/react-webcam) - Webcam component for React
+
+## References:
+
+- https://github.com/juandes/tensorflowjs-objectdetection-tutorial
+- https://github.com/DhruvJawalkar/tensorflow.js-multiple-object-detection
+- https://github.com/overflowjs-com/image_object_detection_tensor_api
+- https://github.com/leartgjoni/webcam-object-detection
+
+## Available Scripts:
+
+In the project directory, you can run: `yarn start`
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
